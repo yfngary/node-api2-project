@@ -90,18 +90,23 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try {
-        const movie = await Post.remove(req.params.id)
+        const movie = await Post.findById(req.params.id)
         if(!movie) {
             res.status(404).json({
                 message: "The post with the specified ID does not exist"
             })
+        } else {
+            await Post.remove(req.params.id)
+            res.json(movie)
         }
     } catch (err) {
-        res.status(500).json({})
+        res.status(500).json({ 
+            message: "he post could not be removed", 
+        })
     }
 })
-router.get('', (req, res) => {
-
+router.get('/:id/comments', (req, res) => {
+    
 })
 
 module.exports = router;
